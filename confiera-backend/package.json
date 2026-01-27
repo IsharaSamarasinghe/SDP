@@ -1,0 +1,6 @@
+{
+  "name": "confiera-backend-root",
+  "version": "1.0.0",
+  "description": "Root folder for Confiera Backend project (Actual project in /confiera-backend subfolder)",
+  "private": true
+}

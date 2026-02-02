@@ -65,9 +65,9 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
   const [conferences, setConferences] = useState<Conference[]>([
     {
       id: "scse2025",
-      name: "Symposium on Computing, Science and Engineering 2025",
+      name: "Smart Computing and Systems Engineering 2025",
       shortName: "SCSE 2025",
-      description: "Annual symposium focusing on cutting-edge research in computing, science, and engineering domains.",
+      description: "Annual conference focusing on cutting-edge research in smart computing and systems engineering domains.",
       startDate: "2025-05-15",
       endDate: "2025-05-17",
       venue: "University of Kelaniya, Sri Lanka",
@@ -172,7 +172,7 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
 
   // Get organizers that are not assigned to any conference or assigned to current conference
   const getAvailableOrganizers = (currentConferenceId?: string) => {
-    return allOrganizers.filter(org => 
+    return allOrganizers.filter(org =>
       org.assignedConference === null || org.assignedConference === currentConferenceId
     );
   };
@@ -492,8 +492,8 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                 onValueChange={(value: string) => {
                   const selectedOrg = getAvailableOrganizers().find(org => org.id.toString() === value);
                   if (selectedOrg) {
-                    setFormData({ 
-                      ...formData, 
+                    setFormData({
+                      ...formData,
                       organizer: `${selectedOrg.firstName} ${selectedOrg.lastName}`,
                       organizerId: selectedOrg.id
                     });
@@ -621,10 +621,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.localAuthorIEEE.standard || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             localAuthorIEEE: { ...formData.fees!.localAuthorIEEE, standard: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -635,10 +635,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.localAuthorIEEE.earlyBird || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             localAuthorIEEE: { ...formData.fees!.localAuthorIEEE, earlyBird: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -649,10 +649,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.localAuthorNonIEEE.standard || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             localAuthorNonIEEE: { ...formData.fees!.localAuthorNonIEEE, standard: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -663,10 +663,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.localAuthorNonIEEE.earlyBird || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             localAuthorNonIEEE: { ...formData.fees!.localAuthorNonIEEE, earlyBird: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -681,10 +681,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.internationalAuthorIEEE.standard || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             internationalAuthorIEEE: { ...formData.fees!.internationalAuthorIEEE, standard: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -695,10 +695,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.internationalAuthorIEEE.earlyBird || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             internationalAuthorIEEE: { ...formData.fees!.internationalAuthorIEEE, earlyBird: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -709,10 +709,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.internationalAuthorNonIEEE.standard || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             internationalAuthorNonIEEE: { ...formData.fees!.internationalAuthorNonIEEE, standard: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -723,10 +723,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.internationalAuthorNonIEEE.earlyBird || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             internationalAuthorNonIEEE: { ...formData.fees!.internationalAuthorNonIEEE, earlyBird: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -741,10 +741,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.localStudentIEEE.standard || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             localStudentIEEE: { ...formData.fees!.localStudentIEEE, standard: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -755,10 +755,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.localStudentIEEE.earlyBird || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             localStudentIEEE: { ...formData.fees!.localStudentIEEE, earlyBird: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -769,10 +769,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.localStudentNonIEEE.standard || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             localStudentNonIEEE: { ...formData.fees!.localStudentNonIEEE, standard: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -783,10 +783,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.localStudentNonIEEE.earlyBird || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             localStudentNonIEEE: { ...formData.fees!.localStudentNonIEEE, earlyBird: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -801,10 +801,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.participant.standard || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             participant: { ...formData.fees!.participant, standard: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -815,10 +815,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.participant.earlyBird || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             participant: { ...formData.fees!.participant, earlyBird: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -875,8 +875,8 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                 onValueChange={(value: string) => {
                   const selectedOrg = getAvailableOrganizers(selectedConference?.id).find(org => org.id.toString() === value);
                   if (selectedOrg) {
-                    setFormData({ 
-                      ...formData, 
+                    setFormData({
+                      ...formData,
                       organizer: `${selectedOrg.firstName} ${selectedOrg.lastName}`,
                       organizerId: selectedOrg.id
                     });
@@ -993,10 +993,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.localAuthorIEEE.standard || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             localAuthorIEEE: { ...formData.fees!.localAuthorIEEE, standard: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -1007,10 +1007,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.localAuthorIEEE.earlyBird || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             localAuthorIEEE: { ...formData.fees!.localAuthorIEEE, earlyBird: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -1021,10 +1021,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.localAuthorNonIEEE.standard || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             localAuthorNonIEEE: { ...formData.fees!.localAuthorNonIEEE, standard: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -1035,10 +1035,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.localAuthorNonIEEE.earlyBird || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             localAuthorNonIEEE: { ...formData.fees!.localAuthorNonIEEE, earlyBird: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -1053,10 +1053,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.internationalAuthorIEEE.standard || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             internationalAuthorIEEE: { ...formData.fees!.internationalAuthorIEEE, standard: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -1067,10 +1067,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.internationalAuthorIEEE.earlyBird || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             internationalAuthorIEEE: { ...formData.fees!.internationalAuthorIEEE, earlyBird: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -1081,10 +1081,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.internationalAuthorNonIEEE.standard || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             internationalAuthorNonIEEE: { ...formData.fees!.internationalAuthorNonIEEE, standard: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -1095,10 +1095,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.internationalAuthorNonIEEE.earlyBird || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             internationalAuthorNonIEEE: { ...formData.fees!.internationalAuthorNonIEEE, earlyBird: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -1113,10 +1113,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.localStudentIEEE.standard || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             localStudentIEEE: { ...formData.fees!.localStudentIEEE, standard: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -1127,10 +1127,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.localStudentIEEE.earlyBird || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             localStudentIEEE: { ...formData.fees!.localStudentIEEE, earlyBird: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -1141,10 +1141,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.localStudentNonIEEE.standard || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             localStudentNonIEEE: { ...formData.fees!.localStudentNonIEEE, standard: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -1155,10 +1155,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.localStudentNonIEEE.earlyBird || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             localStudentNonIEEE: { ...formData.fees!.localStudentNonIEEE, earlyBird: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -1173,10 +1173,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.participant.standard || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             participant: { ...formData.fees!.participant, standard: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -1187,10 +1187,10 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
                       <Input
                         type="number"
                         value={formData.fees?.participant.earlyBird || ""}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          fees: { 
-                            ...formData.fees!, 
+                        onChange={(e) => setFormData({
+                          ...formData,
+                          fees: {
+                            ...formData.fees!,
                             participant: { ...formData.fees!.participant, earlyBird: parseInt(e.target.value) || 0 }
                           }
                         })}
@@ -1218,8 +1218,8 @@ export function ConferenceManagementPage({ onNavigate }: ConferenceManagementPag
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete the conference "{selectedConference?.shortName}". 
-              This action cannot be undone and will affect all associated data including registrations, 
+              This will permanently delete the conference "{selectedConference?.shortName}".
+              This action cannot be undone and will affect all associated data including registrations,
               papers, and evaluations.
             </AlertDialogDescription>
           </AlertDialogHeader>

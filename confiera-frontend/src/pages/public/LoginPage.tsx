@@ -123,6 +123,7 @@ export function LoginPage({ onNavigate }: LoginPageProps) {
                 <div className="flex items-center justify-between">
                   <button
                     type="button"
+                    onClick={() => onNavigate("forgot-password")}
                     className="text-sm transition-colors hover:opacity-80"
                     style={{ color: '#4B0101' }}
                   >

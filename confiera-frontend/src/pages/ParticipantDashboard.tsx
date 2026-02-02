@@ -141,7 +141,7 @@ export function ParticipantDashboard({ onNavigate }: ParticipantDashboardProps) 
     const pricing = pricingTable[participantType];
     const baseFee = isEarlyBird ? pricing.earlyBird : pricing.standard;
     const currency = pricing.currency;
-    
+
     const exchangeRate = 320; // 1 USD = 320 LKR
     const workshopFee = workshops
       .filter((w) => selectedWorkshops.includes(w.id))
@@ -149,11 +149,11 @@ export function ParticipantDashboard({ onNavigate }: ParticipantDashboardProps) 
         const fee = currency === "LKR" ? w.fee : Math.round(w.fee / exchangeRate);
         return sum + fee;
       }, 0);
-    
-    const mealFee = currency === "LKR" 
+
+    const mealFee = currency === "LKR"
       ? (mealPreference === "vegetarian" ? 1500 : 2000)
       : (mealPreference === "vegetarian" ? 5 : 7);
-    
+
     const subtotal = baseFee + workshopFee + mealFee;
     return { baseFee, workshopFee, mealFee, subtotal, total: subtotal, currency };
   };
@@ -184,11 +184,10 @@ export function ParticipantDashboard({ onNavigate }: ParticipantDashboardProps) 
                 <li key={item.id}>
                   <button
                     onClick={() => setActiveTab(item.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                      activeTab === item.id
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${activeTab === item.id
                         ? "bg-primary text-white"
                         : "text-sidebar-foreground hover:bg-sidebar-accent"
-                    }`}
+                      }`}
                   >
                     <Icon className="w-5 h-5" />
                     <span>{item.label}</span>
@@ -237,7 +236,7 @@ export function ParticipantDashboard({ onNavigate }: ParticipantDashboardProps) 
                       <div>
                         <CardTitle className="text-primary">SCSE 2025</CardTitle>
                         <CardDescription>
-                          Smart Computing for Sustainable Energy
+                          Smart Computing and Systems Engineering
                         </CardDescription>
                       </div>
                       <Badge className="bg-accent text-accent-foreground">
@@ -278,7 +277,7 @@ export function ParticipantDashboard({ onNavigate }: ParticipantDashboardProps) 
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-md transition-all hover:opacity-90"
-                          style={{ 
+                          style={{
                             background: '#F5C518',
                             color: '#000000',
                           }}
@@ -291,7 +290,7 @@ export function ParticipantDashboard({ onNavigate }: ParticipantDashboardProps) 
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-md transition-all hover:opacity-90"
-                          style={{ 
+                          style={{
                             background: '#F5C518',
                             color: '#000000',
                           }}
@@ -304,7 +303,7 @@ export function ParticipantDashboard({ onNavigate }: ParticipantDashboardProps) 
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-md transition-all hover:opacity-90"
-                          style={{ 
+                          style={{
                             background: '#F5C518',
                             color: '#000000',
                           }}
@@ -371,7 +370,7 @@ export function ParticipantDashboard({ onNavigate }: ParticipantDashboardProps) 
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-md transition-all hover:opacity-90"
-                          style={{ 
+                          style={{
                             background: '#F5C518',
                             color: '#000000',
                           }}
@@ -384,7 +383,7 @@ export function ParticipantDashboard({ onNavigate }: ParticipantDashboardProps) 
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-md transition-all hover:opacity-90"
-                          style={{ 
+                          style={{
                             background: '#F5C518',
                             color: '#000000',
                           }}
@@ -397,7 +396,7 @@ export function ParticipantDashboard({ onNavigate }: ParticipantDashboardProps) 
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-md transition-all hover:opacity-90"
-                          style={{ 
+                          style={{
                             background: '#F5C518',
                             color: '#000000',
                           }}
@@ -698,9 +697,9 @@ export function ParticipantDashboard({ onNavigate }: ParticipantDashboardProps) 
                             </div>
                             <div className="pt-2 border-t">
                               <Label>Upload Payment Proof *</Label>
-                              <Input 
-                                type="file" 
-                                accept="image/*,application/pdf" 
+                              <Input
+                                type="file"
+                                accept="image/*,application/pdf"
                                 className="mt-2"
                                 onChange={(e) => setPaymentProofFile(e.target.files?.[0] || null)}
                               />
@@ -740,9 +739,9 @@ export function ParticipantDashboard({ onNavigate }: ParticipantDashboardProps) 
                             </div>
                             <div className="pt-2 border-t">
                               <Label>Upload Payment Proof *</Label>
-                              <Input 
-                                type="file" 
-                                accept="image/*,application/pdf" 
+                              <Input
+                                type="file"
+                                accept="image/*,application/pdf"
                                 className="mt-2"
                                 onChange={(e) => setPaymentProofFile(e.target.files?.[0] || null)}
                               />
@@ -843,8 +842,8 @@ export function ParticipantDashboard({ onNavigate }: ParticipantDashboardProps) 
                           <span>{reg.amount}</span>
                         </div>
                         <div className="flex gap-3 mt-4">
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             className="flex-1"
                             onClick={() => handleViewDetails(reg)}
                           >
@@ -1103,14 +1102,14 @@ export function ParticipantDashboard({ onNavigate }: ParticipantDashboardProps) 
               </div>
 
               <div className="flex gap-3">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="flex-1"
                   onClick={() => setShowDetailsDialog(false)}
                 >
                   Close
                 </Button>
-                <Button 
+                <Button
                   className="flex-1 bg-primary hover:bg-primary/90"
                   onClick={() => {
                     setShowDetailsDialog(false);

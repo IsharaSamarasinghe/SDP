@@ -11,7 +11,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
   const conferences = [
     {
       id: 1,
-      title: "SCSE 2025 – Smart Computing for Sustainable Energy",
+      title: "SCSE 2025 – Smart Computing and Systems Engineering",
       venue: "University of Kelaniya, Sri Lanka",
       dates: "March 25-27, 2025",
       description:

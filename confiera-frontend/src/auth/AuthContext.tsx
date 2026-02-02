@@ -1,8 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/auth';
-
 interface User {
     id: string;
     firstName: string;
@@ -17,6 +15,8 @@ interface AuthContextType {
     login: (data: any) => Promise<User>;
     signup: (data: any) => Promise<void>;
     logout: () => Promise<void>;
+    forgotPassword: (email: string) => Promise<void>;
+    resetPassword: (data: any) => Promise<void>;
     isLoading: boolean;
 }
 
@@ -38,21 +38,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const checkAuth = async () => {
         try {
-            // Try to refresh token immediately to check session
-            // Note: For a real app, you might want a specific /me endpoint, 
-            // but /auth/refresh returns a new access token if valid.
             const res = await api.post('/auth/refresh');
             if (res.data.accessToken) {
                 setAccessToken(res.data.accessToken);
-                // Ideally decode token to get user info or call /me
-                // For MVP we might not have user info unless we decode or store it.
-                // Let's rely on login setting it for now, or decode the JWT here.
                 const payload = JSON.parse(atob(res.data.accessToken.split('.')[1]));
                 setUser({
                     id: payload.sub,
                     email: payload.email,
                     roles: payload.roles,
-                    firstName: '', lastName: '' // missing in token payload usually
+                    firstName: '', lastName: ''
                 });
             }
         } catch (e) {
@@ -64,8 +58,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const setAccessToken = (token: string) => {
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        // Setup interceptor for 401s if not already set? 
-        // Simplified for this snippet.
     };
 
     const login = async (credentials: any) => {
@@ -88,8 +80,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         delete api.defaults.headers.common['Authorization'];
     };
 
+    const forgotPassword = async (email: string) => {
+        await api.post('/auth/forgot-password', { email });
+    };
+
+    const resetPassword = async (data: any) => {
+        await api.post('/auth/reset-password', data);
+    };
+
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, signup, logout, isLoading }}>
+        <AuthContext.Provider value={{
+            user,
+            isAuthenticated: !!user,
+            login,
+            signup,
+            logout,
+            forgotPassword,
+            resetPassword,
+            isLoading
+        }}>
             {children}
         </AuthContext.Provider>
     );

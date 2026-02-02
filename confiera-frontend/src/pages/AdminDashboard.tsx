@@ -47,6 +47,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
 import { toast } from "sonner";
 
 interface AdminDashboardProps {
@@ -67,7 +74,17 @@ type Organizer = {
   lastName: string;
   email: string;
   password: string;
-  assignedConference: string | null; // ✅ allow null
+  assignedConference: string | null;
+};
+
+type Evaluator = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  assignedConference: string | null;
+  track: string;
 };
 
 type WorkshopSummary = {
@@ -79,7 +96,7 @@ type WorkshopSummary = {
 };
 
 export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
-  const [activeTab, setActiveTab] = useState<"overview" | "organizers" | "reports" | "settings">(
+  const [activeTab, setActiveTab] = useState<"overview" | "organizers" | "evaluators" | "reports" | "settings">(
     "overview"
   );
 
@@ -103,27 +120,47 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
   const [organizers, setOrganizers] = useState<Organizer[]>([
     { id: 1, firstName: "Nimal", lastName: "Silva", email: "nimal.silva@kln.ac.lk", password: "admin123", assignedConference: "SCSE 2025" },
     { id: 2, firstName: "Anura", lastName: "Perera", email: "anura.perera@kln.ac.lk", password: "admin123", assignedConference: "ICAPS 2025" },
-    { id: 3, firstName: "Kamala", lastName: "Jayasinghe", email: "kamala.j@kln.ac.lk", password: "admin123", assignedConference: "ICET 2025" },
+  ]);
+
+  // Evaluators state
+  const [evaluators, setEvaluators] = useState<Evaluator[]>([
+    { id: 1, firstName: "Dr. A.", lastName: "Wijesinghe", email: "wijesinghe@kln.ac.lk", password: "admin123", assignedConference: "SCSE 2025", track: "AI & Machine Learning" },
+    { id: 2, firstName: "Prof. K.", lastName: "Fernando", email: "fernando@kln.ac.lk", password: "admin123", assignedConference: "ICAPS 2025", track: "Robotics" },
   ]);
 
   const [isAddOrganizerDialogOpen, setIsAddOrganizerDialogOpen] = useState(false);
   const [isEditOrganizerDialogOpen, setIsEditOrganizerDialogOpen] = useState(false);
   const [isDeleteOrganizerDialogOpen, setIsDeleteOrganizerDialogOpen] = useState(false);
 
+  const [isAddEvaluatorDialogOpen, setIsAddEvaluatorDialogOpen] = useState(false);
+  const [isEditEvaluatorDialogOpen, setIsEditEvaluatorDialogOpen] = useState(false);
+  const [isDeleteEvaluatorDialogOpen, setIsDeleteEvaluatorDialogOpen] = useState(false);
+
   const [selectedOrganizer, setSelectedOrganizer] = useState<Organizer | null>(null);
+  const [selectedEvaluator, setSelectedEvaluator] = useState<Evaluator | null>(null);
 
   const [organizerFormData, setOrganizerFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
+    assignedConference: "",
+  });
+
+  const [evaluatorFormData, setEvaluatorFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    assignedConference: "",
+    track: "",
   });
 
   const sidebarItems = [
     { id: "overview", icon: LayoutDashboard, label: "Dashboard Overview" },
     { id: "organizers", icon: Users, label: "Manage Organizers" },
+    { id: "evaluators", icon: GraduationCap, label: "Manage Evaluators" },
     { id: "reports", icon: FileText, label: "Reports" },
-    // settings tab exists in UI below but not in sidebar - keep or add if you want
   ] as const;
 
   // (Not currently used in your UI, but kept if you later add buttons)
@@ -168,7 +205,7 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
 
     setOrganizers((prev) => [...prev, newOrganizer]);
     setIsAddOrganizerDialogOpen(false);
-    setOrganizerFormData({ firstName: "", lastName: "", email: "", password: "" });
+    setOrganizerFormData({ firstName: "", lastName: "", email: "", password: "", assignedConference: "" });
 
     toast.success(
       `Organizer ${organizerFormData.firstName} ${organizerFormData.lastName} added successfully`
@@ -198,7 +235,7 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
 
     setIsEditOrganizerDialogOpen(false);
     setSelectedOrganizer(null);
-    setOrganizerFormData({ firstName: "", lastName: "", email: "", password: "" });
+    setOrganizerFormData({ firstName: "", lastName: "", email: "", password: "", assignedConference: "" });
     toast.success("Organizer updated successfully");
   };
 
@@ -209,6 +246,62 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
     setIsDeleteOrganizerDialogOpen(false);
     setSelectedOrganizer(null);
     toast.success("Organizer deleted successfully");
+  };
+
+  // Evaluator handlers
+  const handleAddEvaluator = () => {
+    if (
+      !evaluatorFormData.firstName ||
+      !evaluatorFormData.lastName ||
+      !evaluatorFormData.email ||
+      !evaluatorFormData.password ||
+      !evaluatorFormData.track
+    ) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    const newEvaluator: Evaluator = {
+      id: evaluators.length + 1,
+      firstName: evaluatorFormData.firstName,
+      lastName: evaluatorFormData.lastName,
+      email: evaluatorFormData.email,
+      password: evaluatorFormData.password,
+      assignedConference: evaluatorFormData.assignedConference || null,
+      track: evaluatorFormData.track,
+    };
+
+    setEvaluators((prev) => [...prev, newEvaluator]);
+    setIsAddEvaluatorDialogOpen(false);
+    setEvaluatorFormData({ firstName: "", lastName: "", email: "", password: "", assignedConference: "", track: "" });
+
+    toast.success(
+      `Evaluator ${evaluatorFormData.firstName} added successfully`
+    );
+  };
+
+  const handleEditEvaluator = () => {
+    if (!selectedEvaluator) return;
+
+    setEvaluators((prev) =>
+      prev.map((ev) =>
+        ev.id === selectedEvaluator.id ? { ...ev, ...evaluatorFormData } : ev
+      )
+    );
+
+    setIsEditEvaluatorDialogOpen(false);
+    setSelectedEvaluator(null);
+    setEvaluatorFormData({ firstName: "", lastName: "", email: "", password: "", assignedConference: "", track: "" });
+    toast.success("Evaluator updated successfully");
+  };
+
+  const handleDeleteEvaluator = () => {
+    if (!selectedEvaluator) return;
+
+    setEvaluators((prev) => prev.filter((ev) => ev.id !== selectedEvaluator.id));
+    setIsDeleteEvaluatorDialogOpen(false);
+    setSelectedEvaluator(null);
+    toast.success("Evaluator deleted successfully");
   };
 
   return (
@@ -237,11 +330,10 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
                 <li key={item.id}>
                   <button
                     onClick={() => setActiveTab(item.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                      activeTab === item.id
-                        ? "bg-primary text-white"
-                        : "text-sidebar-foreground hover:bg-sidebar-accent"
-                    }`}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${activeTab === item.id
+                      ? "bg-primary text-white"
+                      : "text-sidebar-foreground hover:bg-sidebar-accent"
+                      }`}
                   >
                     <Icon className="w-5 h-5" />
                     <span>{item.label}</span>
@@ -440,7 +532,7 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
                     <Button
                       className="bg-primary hover:bg-primary/90"
                       onClick={() => {
-                        setOrganizerFormData({ firstName: "", lastName: "", email: "", password: "" });
+                        setOrganizerFormData({ firstName: "", lastName: "", email: "", password: "", assignedConference: "" });
                         setIsAddOrganizerDialogOpen(true);
                       }}
                     >
@@ -487,6 +579,7 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
                                     lastName: organizer.lastName,
                                     email: organizer.email,
                                     password: organizer.password,
+                                    assignedConference: organizer.assignedConference || "",
                                   });
                                   setIsEditOrganizerDialogOpen(true);
                                 }}
@@ -500,6 +593,103 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
                                 onClick={() => {
                                   setSelectedOrganizer(organizer);
                                   setIsDeleteOrganizerDialogOpen(true);
+                                }}
+                                className="text-destructive hover:text-destructive"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Manage Evaluators */}
+          {activeTab === "evaluators" && (
+            <div>
+              <h1 className="mb-2 text-primary">Manage Evaluators</h1>
+              <p className="text-muted-foreground mb-8">
+                Add and assign evaluators to conference tracks
+              </p>
+
+              <Card>
+                <CardHeader>
+                  <div className="flex justify-between items-center">
+                    <CardTitle>Evaluators List</CardTitle>
+                    <Button
+                      className="bg-primary hover:bg-primary/90"
+                      onClick={() => {
+                        setEvaluatorFormData({ firstName: "", lastName: "", email: "", password: "", assignedConference: "", track: "" });
+                        setIsAddEvaluatorDialogOpen(true);
+                      }}
+                    >
+                      <PlusCircle className="w-4 h-4 mr-2" />
+                      Add Evaluator
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Track</TableHead>
+                        <TableHead>Assigned Conference</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {evaluators.map((evaluator) => (
+                        <TableRow key={evaluator.id}>
+                          <TableCell>
+                            <div style={{ fontWeight: 500 }}>
+                              {evaluator.firstName} {evaluator.lastName}
+                            </div>
+                          </TableCell>
+                          <TableCell>{evaluator.email}</TableCell>
+                          <TableCell>
+                            <Badge variant="secondary">{evaluator.track}</Badge>
+                          </TableCell>
+                          <TableCell>
+                            {evaluator.assignedConference ? (
+                              <Badge variant="outline">{evaluator.assignedConference}</Badge>
+                            ) : (
+                              <span className="text-sm text-muted-foreground">Not assigned</span>
+                            )}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex justify-end gap-2">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  setSelectedEvaluator(evaluator);
+                                  setEvaluatorFormData({
+                                    firstName: evaluator.firstName,
+                                    lastName: evaluator.lastName,
+                                    email: evaluator.email,
+                                    password: evaluator.password,
+                                    assignedConference: evaluator.assignedConference || "",
+                                    track: evaluator.track,
+                                  });
+                                  setIsEditEvaluatorDialogOpen(true);
+                                }}
+                              >
+                                <Edit className="w-4 h-4" />
+                              </Button>
+
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  setSelectedEvaluator(evaluator);
+                                  setIsDeleteEvaluatorDialogOpen(true);
                                 }}
                                 className="text-destructive hover:text-destructive"
                               >
@@ -644,6 +834,24 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
                 placeholder="Enter password"
               />
             </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="conf">Assign Conference</Label>
+              <Select
+                value={organizerFormData.assignedConference}
+                onValueChange={(val: string) => setOrganizerFormData({ ...organizerFormData, assignedConference: val })}
+              >
+                <SelectTrigger id="conf">
+                  <SelectValue placeholder="Select conference" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">None</SelectItem>
+                  {conferences.map(c => (
+                    <SelectItem key={c.id} value={c.name}>{c.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           <DialogFooter>
@@ -712,6 +920,24 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
                 }
               />
             </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="edit-conf">Assign Conference</Label>
+              <Select
+                value={organizerFormData.assignedConference}
+                onValueChange={(val: string) => setOrganizerFormData({ ...organizerFormData, assignedConference: val })}
+              >
+                <SelectTrigger id="edit-conf">
+                  <SelectValue placeholder="Select conference" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">None</SelectItem>
+                  {conferences.map(c => (
+                    <SelectItem key={c.id} value={c.name}>{c.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           <DialogFooter>
@@ -724,6 +950,126 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Add Evaluator Dialog */}
+      <Dialog open={isAddEvaluatorDialogOpen} onOpenChange={setIsAddEvaluatorDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Evaluator</DialogTitle>
+            <DialogDescription>Create a new panel evaluator account.</DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>First Name *</Label>
+                <Input value={evaluatorFormData.firstName} onChange={(e) => setEvaluatorFormData({ ...evaluatorFormData, firstName: e.target.value })} />
+              </div>
+              <div className="space-y-2">
+                <Label>Last Name *</Label>
+                <Input value={evaluatorFormData.lastName} onChange={(e) => setEvaluatorFormData({ ...evaluatorFormData, lastName: e.target.value })} />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>Email *</Label>
+              <Input type="email" value={evaluatorFormData.email} onChange={(e) => setEvaluatorFormData({ ...evaluatorFormData, email: e.target.value })} />
+            </div>
+            <div className="space-y-2">
+              <Label>Password *</Label>
+              <Input type="password" value={evaluatorFormData.password} onChange={(e) => setEvaluatorFormData({ ...evaluatorFormData, password: e.target.value })} />
+            </div>
+            <div className="space-y-2">
+              <Label>Track *</Label>
+              <Select value={evaluatorFormData.track} onValueChange={(val: string) => setEvaluatorFormData({ ...evaluatorFormData, track: val })}>
+                <SelectTrigger><SelectValue placeholder="Select track" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="AI & Machine Learning">AI & Machine Learning</SelectItem>
+                  <SelectItem value="Robotics">Robotics</SelectItem>
+                  <SelectItem value="Energy Systems">Energy Systems</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Assign Conference</Label>
+              <Select value={evaluatorFormData.assignedConference} onValueChange={(val: string) => setEvaluatorFormData({ ...evaluatorFormData, assignedConference: val })}>
+                <SelectTrigger><SelectValue placeholder="Select conference" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">None</SelectItem>
+                  {conferences.map(c => <SelectItem key={c.id} value={c.name}>{c.name}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsAddEvaluatorDialogOpen(false)}>Cancel</Button>
+            <Button className="bg-primary hover:bg-primary/90" onClick={handleAddEvaluator}>Add Evaluator</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Evaluator Dialog */}
+      <Dialog open={isEditEvaluatorDialogOpen} onOpenChange={setIsEditEvaluatorDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Evaluator</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            {/* Same fields as Add Evaluator */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>First Name *</Label>
+                <Input value={evaluatorFormData.firstName} onChange={(e) => setEvaluatorFormData({ ...evaluatorFormData, firstName: e.target.value })} />
+              </div>
+              <div className="space-y-2">
+                <Label>Last Name *</Label>
+                <Input value={evaluatorFormData.lastName} onChange={(e) => setEvaluatorFormData({ ...evaluatorFormData, lastName: e.target.value })} />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>Email *</Label>
+              <Input type="email" value={evaluatorFormData.email} onChange={(e) => setEvaluatorFormData({ ...evaluatorFormData, email: e.target.value })} />
+            </div>
+            <div className="space-y-2">
+              <Label>Track *</Label>
+              <Select value={evaluatorFormData.track} onValueChange={(val: string) => setEvaluatorFormData({ ...evaluatorFormData, track: val })}>
+                <SelectTrigger><SelectValue placeholder="Select track" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="AI & Machine Learning">AI & Machine Learning</SelectItem>
+                  <SelectItem value="Robotics">Robotics</SelectItem>
+                  <SelectItem value="Energy Systems">Energy Systems</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Assign Conference</Label>
+              <Select value={evaluatorFormData.assignedConference} onValueChange={(val: string) => setEvaluatorFormData({ ...evaluatorFormData, assignedConference: val })}>
+                <SelectTrigger><SelectValue placeholder="Select conference" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">None</SelectItem>
+                  {conferences.map(c => <SelectItem key={c.id} value={c.name}>{c.name}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditEvaluatorDialogOpen(false)}>Cancel</Button>
+            <Button className="bg-primary hover:bg-primary/90" onClick={handleEditEvaluator}>Save Changes</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Evaluator Confirmation */}
+      <AlertDialog open={isDeleteEvaluatorDialogOpen} onOpenChange={setIsDeleteEvaluatorDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Evaluator</AlertDialogTitle>
+            <AlertDialogDescription>Are you sure?</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction className="bg-destructive text-destructive-foreground hover:bg-destructive/90" onClick={handleDeleteEvaluator}>Delete</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Delete Organizer Confirmation */}
       <AlertDialog open={isDeleteOrganizerDialogOpen} onOpenChange={setIsDeleteOrganizerDialogOpen}>
